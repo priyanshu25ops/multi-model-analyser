@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognixo | Medical Report Analyzer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 40px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 90%;
+        }
+
+        .highlight {
+            color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+        }
+
+        .dashboard-preview {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(-10deg);
+            border: 1px solid var(--gray-light);
+        }
+
+        .dashboard-header {
+            height: 40px;
+            background-color: var(--dark);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 8px;
+        }
+
+        .dashboard-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dashboard-dot.red {
+            background-color: var(--danger);
+        }
+
+        .dashboard-dot.yellow {
+            background-color: var(--warning);
+        }
+
+        .dashboard-dot.green {
+            background-color: var(--secondary);
+        }
+
+        .dashboard-content {
+            padding: 20px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dashboard-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .dashboard-card {
+            height: 60px;
+            border-radius: 8px;
+            flex: 1;
+        }
+
+        .card-nlp {
+            background: linear-gradient(90deg, #dbeafe, #93c5fd);
+        }
+
+        .card-cv {
+            background: linear-gradient(90deg, #fef3c7, #fbbf24);
+        }
+
+        .card-dl {
+            background: linear-gradient(90deg, #d1fae5, #34d399);
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .floating-1 {
+            top: -20px;
+            right: 30px;
+            background-color: var(--primary);
+            transform: rotate(15deg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-2 {
+            bottom: 40px;
+            right: -20px;
+            background-color: var(--secondary);
+            transform: rotate(-10deg);
+            animation: float 8s ease-in-out infinite 1s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(15deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(15deg);
+            }
+        }
+
+        /* Tech Stack Section */
+        .tech-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--dark);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .tech-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid transparent;
+            text-align: center;
+            /* Added for centering */
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-light);
+        }
+
+        .tech-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 20px auto;
+            /* Centered margin */
+        }
+
+        /* ... existing styles ... */
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            /* Center tags */
+        }
+
+        .tech-icon.nlp {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .tech-icon.cv {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .tech-icon.dl {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .tech-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .tech-card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            background-color: var(--gray-light);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* Dashboard & Form */
+        .dashboard-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .file-label:hover {
+            background-color: var(--primary-light);
+        }
+
+        .model-selection {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .model-option input {
+            display: none;
+        }
+
+        .model-option label {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .model-option input:checked+label {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Settings / Prompt Area */
+        #settingsArea {
+            margin-top: 30px;
+            text-align: left;
+            background: white;
+            padding: 20px;
+            border: 1px solid var(--gray-light);
+            border-radius: 12px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .settings-toggle {
+            color: var(--gray);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            margin-top: 10px;
+        }
+
+        /* Results */
+        .analysis-results {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            display: none;
+        }
+
+        .result-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .result-icon.nlp {
+            background-color: var(--primary);
+        }
+
+        .result-icon.cv {
+            background-color: var(--warning);
+        }
+
+        .result-icon.dl {
+            background-color: var(--secondary);
+        }
+
+        .confidence {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .result-content {
+            color: var(--gray);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background-color: var(--secondary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Spinner */
+        #spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(37, 99, 235, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+
+            .hero-content,
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .floating-element {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        pre {
+            white-space: pre-wrap;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <span>Cognixo</span>
+                </div>
+                <nav class="nav-links">
+                    <a onclick="scrollToDashboard()" class="active">Dashboard</a>
+                    <a onclick="scrollToDashboard()">Reports</a>
+                    <a onclick="scrollToDashboard()">Analytics</a>
+                    <a onclick="toggleSettings()">Settings</a>
+                </nav>
+                <div class="user-profile">
+                    <div class="avatar">SR</div>
+                    <div>
+                        <div style="font-weight: 600;">Sakshi & Riya</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1><span class="highlight">Cognixo</span> AI-Powered Multi-Model Analyzer</h1>
+                    <p>A multi-modal AI system that analyzes medical reports using <span class="highlight">NLP</span>
+                        (for text extraction and summarization), <span class="highlight">Computer Vision</span> (for
+                        X-ray/MRI analysis), and <span class="highlight">Deep Learning</span> to assist doctors in
+                        diagnoses.</p>
+                    <button class="cta-button" onclick="scrollToDashboard()">
+                        <i class="fas fa-play-circle"></i> Start Analysis
+                    </button>
+                </div>
+                <!-- Reuse Visuals -->
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <div class="dashboard-dot red"></div>
+                            <div class="dashboard-dot yellow"></div>
+                            <div class="dashboard-dot green"></div>
+                        </div>
+                        <div class="dashboard-content">
+                            <div class="dashboard-row">
+                                <div class="dashboard-card card-nlp"></div>
+                                <div class="dashboard-card card-cv"></div>
+                            </div>
+                            <div class="dashboard-row">
+                                <div class="dashboard-card card-dl"></div>
+                                <div class="dashboard-card card-nlp"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-element floating-1"><i class="fas fa-brain"></i></div>
+                    <div class="floating-element floating-2"><i class="fas fa-eye"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-section">
+        <div class="container">
+            <h2 class="section-title">Multi-Modal AI Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon nlp">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Natural Language Processing</h3>
+                    <p>Extract and summarize information from medical reports using advanced transformer models.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Hugging Face Transformers</span>
+                        <span class="tech-tag">BERT</span>
+                        <span class="tech-tag">Clinical NLP</span>
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon cv">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>Computer Vision</h3>
+                    <p>Analyze X-ray, MRI, and CT scan images to detect anomalies and support diagnostic decisions.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">OpenCV</span>
+                        <span class="tech-tag">CNN</span>
+                        <span class="tech-tag">ResNet</span>
+                        <span class="tech-tag">EfficientNet</span>
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon dl">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Deep Learning Integration</h3>
+                    <p>Combine multiple data modalities for comprehensive analysis and diagnostic recommendations.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">Multi-modal AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Dashboard -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <h2 class="section-title">Cognixo Analysis Dashboard</h2>
+            <div class="dashboard-container">
+                <!-- Upload Column -->
+                <div class="upload-area">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt" id="ui-icon"></i>
+                    </div>
+                    <h3 id="ui-title">Upload Medical Document</h3>
+                    <p id="ui-desc">Select the type of analysis below:</p>
+
+                    <div class="model-selection">
+                        <div class="model-option">
+                            <input type="radio" name="modelType" id="xray" value="xray" checked>
+                            <label for="xray">Chest X-Ray</label>
+                        </div>
+                        <div class="model-option">
+                            <input type="radio" name="modelType" id="mri" value="mri">
+                            <label for="mri">Brain MRI</label>
+                        </div>
+                        <div class="model-option">
+                            <input type="radio" name="modelType" id="report" value="report">
+                            <label for="report">Medical Report</label>
+                        </div>
+                    </div>
+
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <label for="fileInput" class="file-label">
+                        <i class="fas fa-folder-open"></i> Choose File
+                    </label>
+
+                    <!-- Settings Toggle (Prompt) -->
+                    <div class="settings-toggle" onclick="toggleSettings()">
+                        <i class="fas fa-cog"></i> Customize AI Doctor Persona
+                    </div>
+
+                    <div id="settingsArea">
+                        <label style="font-weight:600;font-size:0.9rem;">Custom System Prompt (Optional):</label>
+                        <textarea id="customPrompt"
+                            placeholder="E.g., You are a strict cardiologist. Focus only on heart issues..."></textarea>
+                        <div style="font-size:0.8rem;color:var(--gray);margin-top:5px;">Leave empty to use the default
+                            AI Doctor persona.</div>
+                    </div>
+
+                    <!-- Preview -->
+                    <img id="preview" src="#" alt="Preview"
+                        style="display:none; max-width:100%; margin-top:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+
+                    <!-- Analyze Button -->
+                    <button id="analyzeBtn" class="cta-button"
+                        style="margin-top:20px; background-color: var(--secondary); display:none; width:100%;">
+                        Analyze Scan <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <div id="spinner"></div>
+                </div>
+
+                <!-- Results Column -->
+                <div class="analysis-results" id="resultsArea">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-title">
+                                <div class="result-icon nlp" id="res-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <span id="res-title">Analysis Result</span>
+                            </div>
+                            <div class="confidence" id="res-confidence"></div>
+                        </div>
+                        <div class="result-content">
+                            <p><span class="status-indicator status-active"></span> <span id="res-status">Analysis
+                                    Complete</span></p>
+                            <div id="res-body" style="margin-top: 15px;">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Cognixo</h3>
+                    <p>Advanced AI diagnostics by Sakshi & Riya.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Cognixo. Clinical support tool. Not a replacement for professional advice.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultsArea = document.getElementById('resultsArea');
+        const spinner = document.getElementById('spinner');
+        const modelRadios = document.querySelectorAll('input[name="modelType"]');
+        const uiIcon = document.getElementById('ui-icon');
+        const uiTitle = document.getElementById('ui-title');
+        const customPromptInput = document.getElementById('customPrompt');
+
+        let currentFile = null;
+
+        function scrollToDashboard() {
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleSettings() {
+            const area = document.getElementById('settingsArea');
+            area.style.display = area.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Tech Card Animation
+        const techCards = document.querySelectorAll('.tech-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        techCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+
+        // Model Selection
+        modelRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (val === 'xray') {
+                    uiIcon.className = 'fas fa-x-ray';
+                    uiTitle.innerText = 'Upload Chest X-Ray';
+                    fileInput.accept = "image/*";
+                } else if (val === 'mri') {
+                    uiIcon.className = 'fas fa-brain';
+                    uiTitle.innerText = 'Upload Brain MRI';
+                    fileInput.accept = "image/*";
+                } else {
+                    uiIcon.className = 'fas fa-file-medical-alt';
+                    uiTitle.innerText = 'Upload Clinical Report (PDF)';
+                    fileInput.accept = ".pdf";
+                }
+                currentFile = null;
+                preview.style.display = 'none';
+                analyzeBtn.style.display = 'none';
+                resultsArea.style.display = 'none';
+            });
+        });
+
+        // File Handling
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                currentFile = e.target.files[0];
+                analyzeBtn.style.display = 'inline-block';
+                resultsArea.style.display = 'none';
+
+                if (currentFile.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(currentFile);
+                } else {
+                    preview.style.display = 'none';
+                }
+            }
+        });
+
+        // API Call
+        analyzeBtn.addEventListener('click', async () => {
+            if (!currentFile) return;
+
+            analyzeBtn.style.display = 'none';
+            spinner.style.display = 'block';
+            resultsArea.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', currentFile);
+
+            // Add custom prompt if exists
+            const customP = customPromptInput.value;
+            if (customP) {
+                formData.append('custom_prompt', customP);
+            }
+
+            const mode = document.querySelector('input[name="modelType"]:checked').value;
+            let endpoint = '/predict';
+            if (mode === 'mri') endpoint = '/predict_mri';
+            if (mode === 'report') endpoint = '/analyze_report';
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || errData.detail || "Backend Error");
+                }
+
+                const data = await response.json();
+                displayResults(data);
+
+            } catch (error) {
+                alert("Error: " + error.message);
+                analyzeBtn.style.display = 'inline-block';
+            } finally {
+                spinner.style.display = 'none';
+                if (resultsArea.style.display === 'block') {
+                    analyzeBtn.innerText = 'Analyze Another';
+                    analyzeBtn.style.display = 'inline-block';
+                }
+            }
+        });
+
+        function displayResults(data) {
+            resultsArea.style.display = 'block';
+            const resBody = document.getElementById('res-body');
+            const resTitle = document.getElementById('res-title');
+            const resConfidence = document.getElementById('res-confidence');
+
+            resBody.innerHTML = '';
+
+            if (data.analysis) {
+                resTitle.innerText = "Medical Report Analysis";
+                resConfidence.innerText = "AI Intelligence/Analysis";
+                // Render nicely (handle newlines)
+                resBody.innerHTML = `<div style="line-height:1.8; color:#334155;">${data.analysis.replace(/\n/g, '<br>')}</div>`;
+            } else {
+                resTitle.innerText = `${data.predicted_class}`;
+                resConfidence.innerText = `${(data.confidence * 100).toFixed(1)}% Confidence`;
+
+                const sorted = Object.entries(data.probabilities).sort(([, a], [, b]) => b - a);
+                let barsHtml = '';
+                sorted.forEach(([label, prob]) => {
+                    const percent = (prob * 100).toFixed(1);
+                    barsHtml += `
+                        <div style="margin-bottom:12px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-weight:500;">
+                                <span>${label}</span>
+                                <span>${percent}%</span>
+                            </div>
+                            <div style="background:#e2e8f0; border-radius:4px; height:8px; overflow:hidden;">
+                                <div style="background:var(--primary); width:${percent}%; height:100%;"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+                resBody.innerHTML = barsHtml;
+            }
+            resultsArea.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
